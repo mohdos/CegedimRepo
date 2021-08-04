@@ -4,7 +4,8 @@ import Block from './Block';
 import {Container, Row, Col} from 'react-bootstrap';
 import { Component } from 'react';
 import {shuffleArray} from './Helper';
-import { Button } from 'bootstrap';
+import { Button } from 'react-bootstrap';
+import WinScreen from './WinScreen';
 
 class App extends Component
 {
@@ -73,6 +74,12 @@ class App extends Component
         arr2D: arr2DModified
       }, () => {
         console.log(this.state.arr2D);
+        if (this.checkSolution(this.state.arr2D))
+        {
+          setTimeout(() => {
+            this.setState({didWin: true});
+          }, 500);
+        }
       });
     }
 
@@ -125,9 +132,9 @@ class App extends Component
     }
   }
 
-  checkSolution()
+  checkSolution(arr2D)
   {
-    const arr1D = [].concat(...this.state.arr2D);
+    const arr1D = [].concat(...arr2D);
     for (let i=1; i<arr1D.length; i++)
     {
       if (arr1D[i] - arr1D[i-1] !== 1)
@@ -142,28 +149,35 @@ class App extends Component
   {
     const blocksPerRow = Math.floor(Math.sqrt(this.state.numGrids + 1));
     const share = Math.floor(12 / blocksPerRow);
-    console.log("is rendering")
-    console.log("in render", this.state.arr2D)
+    
     return (
       <div className="App">
-        <Container className='appContainer'>
-          {
-            this.state.arr2D.map((rowArr, rowInd) => {
-              return (
-                <Row>
-                  {rowArr.map((value, index) => {
-                    return (<Col key={value} md={share} xs={share} lg={share} xl={share}>
-                              <Block value={value} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
-                            </Col>
-                          )
-                    })
-                  }
-                </Row>
-              )
-            })
-          }
-        </Container>
-        {/* <Block /> */}
+        {this.state.didWin && <WinScreen onClick={this.handleReplay.bind(this)}/>}
+        {!this.state.didWin && 
+          <Container className='appContainer'>
+            {
+              this.state.arr2D.map((rowArr, rowInd) => {
+                return (
+                  <Row>
+                    {rowArr.map((value, index) => {
+                      return (<Col key={value} md={share} xs={share} lg={share} xl={share}>
+                                <Block value={value} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
+                              </Col>
+                            )
+                      })
+                    }
+                  </Row>
+                )
+              })
+            }
+
+            <Row>
+              <Button onClick={() => this.handleReplay.bind(this)} variant='primary' style={{margin: "auto", marginTop: "20px"}}>
+                Shuffle
+              </Button>
+            </Row>
+          </Container>
+        }
       </div>
     );
   }
