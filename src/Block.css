@@ -1,0 +1,40 @@
+.Block {
+    height: 200px;
+    width: 200px;
+    /* background-color: red; */
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    text-align: center;
+    align-items: center;
+    vertical-align: text-bottom;
+}
+
+@media (max-width: 1200px) {
+    .Block {
+        height: 150px;
+        width: 150px;
+    }
+}
+
+@media (max-width: 900px) {
+    .Block {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+@media (max-width: 700px) {
+    .Block {
+        height: 80px;
+        width: 80px;
+    }
+}
+
+.valueHeader
+{
+    padding-top: 35%;
+    color: white;
+}
+
