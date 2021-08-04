@@ -47,7 +47,6 @@ class App extends Component
 
   handleSelection(value)
   {
-    console.log("Value = ", value)
     
     // if this is empty, do nothing
     if (value == this.state.numGrids)
@@ -154,29 +153,28 @@ class App extends Component
       <div className="App">
         {this.state.didWin && <WinScreen onClick={this.handleReplay.bind(this)}/>}
         {!this.state.didWin && 
-          <Container className='appContainer'>
-            {
-              this.state.arr2D.map((rowArr, rowInd) => {
-                return (
-                  <Row>
-                    {rowArr.map((value, index) => {
-                      return (<Col key={value} md={share} xs={share} lg={share} xl={share}>
-                                <Block value={value} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
-                              </Col>
-                            )
-                      })
-                    }
-                  </Row>
-                )
-              })
-            }
-
-            <Row>
-              <Button onClick={() => this.handleReplay.bind(this)} variant='primary' style={{margin: "auto", marginTop: "20px"}}>
+          <div>
+            <Container className='appContainer'>
+              {
+                this.state.arr2D.map((rowArr, rowInd) => {
+                  return (
+                    <Row>
+                      {rowArr.map((value, index) => {
+                        return (<Col key={value} md={share} xs={share} lg={share} xl={share}>
+                                  <Block value={value} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
+                                </Col>
+                              )
+                        })
+                      }
+                    </Row>
+                  )
+                })
+              }
+            </Container>
+            <Button onClick={() => this.handleReplay()} variant='primary' style={{padding: "8px 20px", margin: "auto", marginTop: "20px"}}>
                 Shuffle
-              </Button>
-            </Row>
-          </Container>
+            </Button>
+          </div>
         }
       </div>
     );
