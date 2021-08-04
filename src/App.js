@@ -17,17 +17,17 @@ class App extends Component
     }
 
     this.handleSelection = this.handleSelection.bind(this);
-    this.state = {numGrids};
+    const arr = shuffleArray([...Array(numGrids+1).keys()]);
+    this.state = {numGrids, arr: arr};
   }
 
-  handleSelection(e)
+  handleSelection()
   {
-    console.log(e.key);
+    
   }
 
   render()
   {
-    const arr = shuffleArray([...Array(this.state.numGrids+1).keys()]);
     const blocksPerRow = Math.sqrt(this.state.numGrids);
     const share = Math.floor(12 / blocksPerRow);
     return (
@@ -35,13 +35,10 @@ class App extends Component
         <Container className='appContainer'>
           <Row>
             {
-              arr.map((value, index) => {
+              this.state.arr.map((value, index) => {
                 const row = Math.floor(index / blocksPerRow);
                 const col = index % 4;
-                const key = `${row},${col}`
-                // this.setState({
-                //   [key] : value
-                // });
+                const key = `${row},${col}`;
                 return (
                   <Col key={index} md={share} xs={share} lg={share} xl={share}>
                     <Block value={value+1} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection}/>
