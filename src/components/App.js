@@ -156,7 +156,7 @@ class App extends Component
     
     return (
       <div className="App">
-        {this.state.didWin && <WinScreen onClick={this.handleReplay.bind(this)}/>}
+        {this.state.didWin && <WinScreen time={this.state.time} numMoves={this.state.numMoves} onClick={this.handleReplay.bind(this)}/>}
         {!this.state.didWin && 
           <div>
             <Container className='appContainer'>
