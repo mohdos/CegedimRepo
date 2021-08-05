@@ -1,5 +1,5 @@
 import { Component } from "react";
-import './WinScreen.css';
+import '../styling/WinScreen.css';
 import { Button } from "react-bootstrap";
 
 

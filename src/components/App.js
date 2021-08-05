@@ -1,9 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
+import '../styling/App.css';
 import Block from './Block';
 import {Container, Row, Col} from 'react-bootstrap';
 import { Component } from 'react';
-import {shuffleArray} from './Helper';
+import {shuffleArray} from '../utils/Helper';
 import { Button } from 'react-bootstrap';
 import WinScreen from './WinScreen';
 
@@ -28,7 +27,9 @@ class App extends Component
     {
       arr2D.push(arr.slice(i*blocksPerRow, i*blocksPerRow+blocksPerRow));
     }
-    this.state = {numGrids, arr2D: arr2D, didWin: false};
+    this.state = {numGrids, arr2D: arr2D, didWin: false, numMoves: 0, time: 0};
+
+    this.timer = setInterval(() => {this.setState({time: this.state.time + 1})}, 1000);
   }
 
   handleReplay()
@@ -41,8 +42,11 @@ class App extends Component
       arr2D.push(arr.slice(i*blocksPerRow, i*blocksPerRow+blocksPerRow));
     }
     this.setState({
-      arr2D: arr2D, didWin: false
+      arr2D: arr2D, didWin: false, numMoves: 0, time: 0
     })
+
+    clearInterval(this.timer);
+    this.timer = setInterval(() => {this.setState({time: this.state.time + 1})}, 1000);
   }
 
   handleSelection(value)
@@ -70,7 +74,8 @@ class App extends Component
       arr2DModified[rowEmpty][colEmpty] = this.state.arr2D[rowValue][colValue];
       arr2DModified[rowValue][colValue] = temp;
       this.setState({
-        arr2D: arr2DModified
+        arr2D: arr2DModified,
+        numMoves: this.state.numMoves + 1
       }, () => {
         console.log(this.state.arr2D);
         if (this.checkSolution(this.state.arr2D))
@@ -161,7 +166,7 @@ class App extends Component
                     <Row>
                       {rowArr.map((value, index) => {
                         return (<Col key={value} md={share} xs={share} lg={share} xl={share}>
-                                  <Block value={value} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
+                                  <Block value={value} row={rowInd} col={index} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
                                 </Col>
                               )
                         })
@@ -174,6 +179,9 @@ class App extends Component
             <Button onClick={() => this.handleReplay()} variant='primary' style={{padding: "8px 20px", margin: "auto", marginTop: "20px"}}>
                 Shuffle
             </Button>
+            <div style={{marginTop: "20px"}}>
+              <h6>Number of moves: {this.state.numMoves} - Time taken: {this.state.time}</h6>
+            </div>
           </div>
         }
       </div>
@@ -183,21 +191,3 @@ class App extends Component
 
 export default App;
 
-
-/*
-{
-            rowArr.forEach((rowVal) => {
-              return (
-                <Row>
-                  {this.state.arr.map((value, index) => {
-                    return (<Col key={index} md={share} xs={share} lg={share} xl={share}>
-                              <Block value={value+1} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection}/>
-                            </Col>
-                          )
-                    })
-                  }
-                </Row>
-              )
-            })
-          }
-*/
