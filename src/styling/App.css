@@ -1,7 +1,7 @@
 .App {
-  width: 80%;
-  margin: auto;
   text-align: center;
+  background: linear-gradient(to right, purple, orange);
+  padding-top: 20px;
 }
 
 .App-logo {
@@ -32,8 +32,7 @@
 
 .appContainer
 {
-  margin-top: 20px;
-  padding: 10px;
+  padding: 6px;
   border-radius: 20px;
   background-color: rgba(230,172,65,1);
 }

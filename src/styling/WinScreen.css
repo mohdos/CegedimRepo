@@ -2,3 +2,42 @@
 {
     background-color: green;
 }
+
+.circleLeft
+{
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: red;
+    position: absolute;
+    left: 20%;
+    top: 0px;
+    transition: all 1s ease-in-out;
+}
+
+
+.circleRight
+{
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: red;
+    position: absolute;
+    right: 20%;
+    top: 0px;
+    transition: all 1s ease-in-out;
+}
+
+
+.circleMiddle
+{
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: red;
+    position: absolute;
+    left: 49%;
+    top: 40%;
+    transition: transform 1s ease-in-out, background-color 1s ease-in-out;
+}
+

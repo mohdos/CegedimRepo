@@ -159,7 +159,7 @@ class App extends Component
         {this.state.didWin && <WinScreen time={this.state.time} numMoves={this.state.numMoves} onClick={this.handleReplay.bind(this)}/>}
         {!this.state.didWin && 
           <div>
-            <Container className='appContainer'>
+            <Container className='appContainer' style={{maxWidth: "800px"}}>
               {
                 this.state.arr2D.map((rowArr, rowInd) => {
                   return (
