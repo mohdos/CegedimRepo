@@ -1,0 +1,11 @@
+.colClass > div > div
+{
+  transition: all ease-in 0.4s;
+}
+
+.gameContainer
+{
+  padding: 6px;
+  border-radius: 20px;
+  background-color: rgba(230,172,65,1);
+}
