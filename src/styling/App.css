@@ -30,6 +30,11 @@
   color: #61dafb;
 }
 
+.colClass > div > div
+{
+  transition: all ease-in 0.4s;
+}
+
 .appContainer
 {
   padding: 6px;

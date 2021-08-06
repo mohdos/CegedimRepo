@@ -76,4 +76,39 @@ function getRandomElement(arr)
     return arr[Math.floor(Math.random()*arr.length)];
 }
 
-module.exports = {shuffleArray, getRandomElement};
+function getTranslationString(oldi, oldj, newi, newj)
+{
+    const translationPercentHorizontal = 132;
+    const translationPercentVertical = 118;
+
+    if (oldi == newi && (oldj-1) == newj)
+    {
+        // left
+        return `translate(-${translationPercentHorizontal}%, 0%)`;
+    }
+    else if (oldi == newi && (oldj+1) == newj)
+    {
+        // right
+        return `translate(${translationPercentHorizontal}%, 0%)`;
+    }
+    else if ((oldi - 1) == newi && oldj == newj)
+    {
+        // up
+        return `translate(0%, -${translationPercentVertical}%)`;
+    }
+    else
+    {
+        //down
+        return `translate(0%, ${translationPercentVertical}%)`;
+    }
+}
+
+function isInCorrectPostion(value, rowInd, colInd)
+{
+    const correctRow = Math.floor(value / 4);
+    const correctCol = Math.floor(value % 4);
+
+    return correctRow == rowInd && correctCol == colInd;
+}
+
+module.exports = {shuffleArray, getRandomElement, getTranslationString, isInCorrectPostion};

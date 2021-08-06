@@ -1,5 +1,6 @@
 import { Component } from "react";
 import '../styling/Block.css';
+import { isInCorrectPostion } from "../utils/Helper";
 
 
 class Block extends Component
@@ -7,16 +8,10 @@ class Block extends Component
     constructor (props)
     {
         super (props);
-        this.state = {value: props.value, isEmpty: props.isEmpty, handleSelection: props.onClick, isCorrectPos: this.isInCorrectPostion(props.value, props.row, props.col)};
+        this.state = {value: props.value, isEmpty: props.isEmpty, handleSelection: props.onClick, isCorrectPos: isInCorrectPostion(props.value, props.row, props.col)};
     }
 
-    isInCorrectPostion(value, rowInd, colInd)
-    {
-        const correctRow = Math.floor(value / 4);
-        const correctCol = Math.floor(value % 4);
-
-        return correctRow == rowInd && correctCol == colInd;
-    }
+    
 
     render()
     {

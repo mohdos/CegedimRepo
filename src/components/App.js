@@ -2,7 +2,7 @@ import '../styling/App.css';
 import Block from './Block';
 import {Container, Row, Col} from 'react-bootstrap';
 import { Component } from 'react';
-import {shuffleArray} from '../utils/Helper';
+import {getTranslationString, isInCorrectPostion, shuffleArray} from '../utils/Helper';
 import { Button } from 'react-bootstrap';
 import WinScreen from './WinScreen';
 
@@ -68,23 +68,38 @@ class App extends Component
     const colValue = valArr[1];
     if (this.isValidMove(rowEmpty, colEmpty, rowValue, colValue))
     {
-      console.log("Is valid");
-      let arr2DModified = [...this.state.arr2D];
-      const temp = this.state.arr2D[rowEmpty][colEmpty]
-      arr2DModified[rowEmpty][colEmpty] = this.state.arr2D[rowValue][colValue];
-      arr2DModified[rowValue][colValue] = temp;
-      this.setState({
-        arr2D: arr2DModified,
-        numMoves: this.state.numMoves + 1
-      }, () => {
-        console.log(this.state.arr2D);
-        if (this.checkSolution(this.state.arr2D))
-        {
-          setTimeout(() => {
-            this.setState({didWin: true});
-          }, 500);
-        }
-      });
+      // e6ac41
+      // console.log(this.getPositionOfValue(value))
+      const isCorrectPos = isInCorrectPostion(value, rowEmpty, colEmpty);
+      const element = document.getElementsByClassName("colClass")[rowValue * 4 + colValue].children[0].children[0];
+      // element.style.transform = "translate(120%, 0%)";
+      element.style.transform = getTranslationString(rowValue, colValue, rowEmpty, colEmpty);
+      element.style.backgroundColor = (isCorrectPos) ? "green" : "red";
+      element.style.boxShadow = "0px 0px";
+
+      const emptyElement = document.getElementsByClassName("colClass")[rowEmpty * 4 + colEmpty].children[0].children[0];
+      emptyElement.style.opacity = "0";
+
+      document.getElementsByClassName("colClass")[rowEmpty * 4 + colEmpty].children[0].style.backgroundColor = "#e6ac4100";
+
+      setTimeout(() => {
+        let arr2DModified = [...this.state.arr2D];
+        const temp = this.state.arr2D[rowEmpty][colEmpty]
+        arr2DModified[rowEmpty][colEmpty] = this.state.arr2D[rowValue][colValue];
+        arr2DModified[rowValue][colValue] = temp;
+
+        this.setState({
+          arr2D: arr2DModified,
+          numMoves: this.state.numMoves + 1
+        }, () => {
+          if (this.checkSolution(this.state.arr2D))
+          {
+            setTimeout(() => {
+              this.setState({didWin: true});
+            }, 600);
+          }
+        })
+      }, 500);
     }
 
   }
@@ -162,11 +177,14 @@ class App extends Component
             <Container className='appContainer' style={{maxWidth: "800px"}}>
               {
                 this.state.arr2D.map((rowArr, rowInd) => {
+                  // transform={this.state.transformations[value]}
                   return (
                     <Row>
                       {rowArr.map((value, index) => {
-                        return (<Col key={value} md={share} xs={share} lg={share} xl={share}>
-                                  <Block value={value} row={rowInd} col={index} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
+                        return (<Col className="colClass" key={value} md={share} xs={share} lg={share} xl={share}>
+                                  <div style={{backgroundColor: "wheat", borderRadius: "10px", marginLeft: "10px", marginRight: "10px", marginTop: "10px"}} className="BlockParent">
+                                    <Block value={value} row={rowInd} col={index} key={index} isEmpty={value===this.state.numGrids} onClick={this.handleSelection.bind(this)}/>
+                                  </div>
                                 </Col>
                               )
                         })
@@ -180,7 +198,7 @@ class App extends Component
                 Shuffle
             </Button>
             <div style={{marginTop: "20px"}}>
-              <h6>Number of moves: {this.state.numMoves} - Time taken: {this.state.time}</h6>
+              <h5 style={{color: "white"}}>Number of moves: {this.state.numMoves} - Time taken: {this.state.time}s</h5>
             </div>
           </div>
         }
